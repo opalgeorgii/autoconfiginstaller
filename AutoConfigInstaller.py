@@ -7,6 +7,7 @@ from winregistry import WinRegistry
 from valve_keyvalues_python.keyvalues import KeyValues
 import platform
 
+# find out Windows bit version
 if platform.architecture()[0] == "64bit":
     strSteamInstallPath = r"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam"
 else:
@@ -29,6 +30,7 @@ disk = 0
 d = collections.OrderedDict(kv["libraryfolders"][str(disk)]["apps"])
 items = list(d.items())
 
+# find the location of steam library
 for disk in range(len(disksNumbers)):
     i = 0
     d = kv["libraryfolders"][str(disk)]["apps"]
@@ -42,9 +44,8 @@ for disk in range(len(disksNumbers)):
     total = sum(int(j) for j in disk)
     disk = total
 
-src_folder = pathlib.Path().resolve()
-main_src_folder = str(src_folder)
-background_src_folder = str(src_folder)
+# find current folder/path
+main_src_folder = str(pathlib.Path().resolve())
 cfg_dst_folder = GamesLibPath + r"\steamapps\common\Counter-Strike Global Offensive\csgo\cfg\\"
 background_dst_folder = GamesLibPath + r"\steamapps\common\Counter-Strike Global Offensive\csgo\panorama\videos\\"
 video_dst_folder = steamPath.value + r'\userdata'
@@ -58,7 +59,7 @@ pattern_1 = main_src_folder + r'\video*'
 pattern_2 = "\*.cfg"
 pattern_3 = "\*.webm"
 main_files = glob.glob(main_src_folder + pattern_2)
-background_files = glob.glob(background_src_folder + pattern_3)
+background_files = glob.glob(main_src_folder + pattern_3)
 
 # prints all directories in a path, copies them and iterates to get to each account and paste video.txt
 for i in range(len(res)):
