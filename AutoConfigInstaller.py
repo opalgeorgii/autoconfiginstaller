@@ -12,7 +12,6 @@ if platform.architecture()[0] == "64bit":
 else:
     strSteamInstallPath = r"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam"
 
-strSteamInstallPath = r"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam"
 if __name__ == "__main__":
     with WinRegistry() as client:
         steamPath = client.read_entry(strSteamInstallPath, "InstallPath")
