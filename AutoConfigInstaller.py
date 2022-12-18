@@ -48,28 +48,29 @@ for disk in range(len(disksNumbers)):
 main_src_folder = str(pathlib.Path().resolve())
 cfg_dst_folder = GamesLibPath + r"\steamapps\common\Counter-Strike Global Offensive\csgo\cfg\\"
 background_dst_folder = GamesLibPath + r"\steamapps\common\Counter-Strike Global Offensive\csgo\panorama\videos\\"
-video_dst_folder = steamPath.value + r'\userdata'
+video_dst_folder = steamPath.value + r"\userdata"
 
 # list file and directories
 res = os.listdir(video_dst_folder)
-print(res)
 
 # Search files with the specified extension/name in source directory
-pattern_1 = main_src_folder + r'\video*'
-pattern_2 = "\*.cfg"
-pattern_3 = "\*.webm"
-main_files = glob.glob(main_src_folder + pattern_2)
-background_files = glob.glob(main_src_folder + pattern_3)
+files_to_move = ["video.txt"]
+pattern_1 = "\*.cfg"
+pattern_2 = "\*.webm"
+main_files = glob.glob(main_src_folder + pattern_1)
+background_files = glob.glob(main_src_folder + pattern_2)
 
 # prints all directories in a path, copies them and iterates to get to each account and paste video.txt
 for i in range(len(res)):
-    video_updated_folder = steamPath.value + r'\userdata' + '\x5c' + res[i] + r'\730\local\cfg\\'
+    video_updated_folder = video_dst_folder + "\x5c" + str(res[i]) + r"\730\local\cfg\\"
     print(video_updated_folder)
     # move file whose name starts with specified name
-    for file in glob.iglob(pattern_1, recursive=True):
-        # extract file name form file path
-        file_name = os.path.basename(file)
-        shutil.copy2(file, video_updated_folder + file_name)
+    for file in files_to_move:
+        # construct full file path
+        source = main_src_folder + file
+        destination = video_updated_folder + file
+        # move file
+        shutil.copy2(file, video_updated_folder)
         print('Copied:', file)
 
 # move the files with cfg extension
