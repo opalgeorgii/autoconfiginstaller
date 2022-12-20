@@ -6,7 +6,7 @@ import pathlib
 from winregistry import WinRegistry
 from valve_keyvalues_python.keyvalues import KeyValues
 import platform
-
+from pathlib import Path
 # find out Windows bit version
 if platform.architecture()[0] == "64bit":
     strSteamInstallPath = r"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam"
@@ -76,13 +76,19 @@ for file in background_files:
 
 # prints all directories in a path, copies them and iterates to get to each account and paste video.txt
 for i in range(len(res)):
-    video_updated_folder = video_dst_folder + "\x5c" + res[i] + r"\730\local\cfg" + "\x5c"
-    print(video_updated_folder)
-    # move file whose name starts with specified name
-    for file in files_to_move:
-        # construct full file path
-        source = main_src_folder + "\x5c" + file
-        destination = video_updated_folder + file
-        # move file
-        shutil.copy2(source, destination)
-        print('Copied:', file)
+    path = video_dst_folder + "\x5c" + res[i] + r"\730\local\cfg"
+    obj = Path(path)
+    checkExistence = obj.exists()
+    if checkExistence == False:
+        i = i + 1
+    else:
+        video_updated_folder = video_dst_folder + "\x5c" + res[i] + r"\730\local\cfg" + "\x5c"
+        print(video_updated_folder)
+        # move file whose name starts with specified name
+        for file in files_to_move:
+            # construct full file path
+            source = main_src_folder + "\x5c" + file
+            destination = video_updated_folder + file
+            # move file
+            shutil.copy2(source, destination)
+            print('Copied:', file)
